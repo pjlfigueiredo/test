@@ -2,30 +2,71 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "virtualMachines_vm_adminUser": {
+            "defaultValue": "ops",
+            "type": "SecureString"
+        },
         "virtualMachines_vm_adminPassword": {
             "defaultValue": "Critical1!",
             "type": "SecureString"
         },
         "virtualMachines_vm_name": {
-            "defaultValue": "bfadservervm",
+            "defaultValue": "dservervm",
             "type": "String"
         },
         "networkInterfaces_nic_name": {
-            "defaultValue": "bfadservernic",
+            "defaultValue": "dservernic",
             "type": "String"
         },
         "publicIPAddresses_ip_name": {
-            "defaultValue": "bfadserverip",
+            "defaultValue": "dserverip",
             "type": "String"
         },
         "virtualNetworks_vnet_name": {
-            "defaultValue": "bfadservervnet",
+            "defaultValue": "dservervnet",
             "type": "String"
         },
         "storageAccounts_sa_name": {
-            "defaultValue": "bfadserversa",
+            "defaultValue": "dserversa",
             "type": "String"
-        }
+        },
+		"resourcesLocation": {
+            "defaultValue": "westeurope",
+            "type": "String"
+        },
+		"vmHardwareProfile": {
+            "defaultValue": "Standard_DS1",
+            "type": "String"
+        },
+		"imageReferencePublisher": {
+            "defaultValue": "canonical",
+            "type": "String"
+        },
+		"imageReferenceOffer": {
+            "defaultValue": "ubuntuserver",
+            "type": "String"
+        },
+		"imageReferenceSku": {
+            "defaultValue": "16.04.0-LTS",
+            "type": "String"
+        },
+		"imageReferenceVersion": {
+            "defaultValue": "16.04.201604203",
+            "type": "String"
+        },
+		"externalDataDiskSize_gb": {
+            "defaultValue": "100",
+            "type": "String"
+        },
+		"vmPrivateIPAddress": {
+            "defaultValue": "192.168.1.101",
+            "type": "String"
+        },
+		"vmDomainNameLabel": {
+            "defaultValue": "dserver",
+            "type": "String"
+        },
+		
     },
     "variables": {},
     "resources": [
@@ -34,18 +75,18 @@
             "type": "Microsoft.Compute/virtualMachines",
             "name": "[parameters('virtualMachines_vm_name')]",
             "apiVersion": "2015-06-15",
-            "location": "westeurope",
+            "location": "[parameters('resourcesLocation')]",
             "tags": {},
             "properties": {
                 "hardwareProfile": {
-                    "vmSize": "Standard_DS1"
+                    "vmSize": "[parameters('vmHardwareProfile')]"
                 },
                 "storageProfile": {
                     "imageReference": {
-                        "publisher": "canonical",
-                        "offer": "ubuntuserver",
-                        "sku": "16.04.0-LTS",
-                        "version": "16.04.201604203"
+                        "publisher": "[parameters('imageReferencePublisher')]",
+                        "offer": "[parameters('imageReferenceOffer')]",
+                        "sku": "[parameters('imageReferenceSku')]",
+                        "version": "[parameters('imageReferenceVersion')]"
                     },
                     "osDisk": {
                         "name": "cli0df3d1bbbbb28c09-os-1472477484912",
@@ -64,13 +105,13 @@
                                 "uri": "[concat('https', '://', parameters('storageAccounts_sa_name'), '.blob.core.windows.net', concat('/vhds/', parameters('virtualMachines_vm_name'),'-20160829-141057426.vhd'))]"
                             },
                             "caching": "ReadWrite",
-                            "diskSizeGB": 100
+                            "diskSizeGB": [parameters('externalDataDiskSize_gb')]
                         }
                     ]
                 },
                 "osProfile": {
                     "computerName": "[parameters('virtualMachines_vm_name')]",
-                    "adminUsername": "ops",
+                    "adminUsername": "[parameters('virtualMachines_vm_adminUser')]",
                     "linuxConfiguration": {
                         "disablePasswordAuthentication": false
                     },
@@ -96,13 +137,13 @@
             "type": "Microsoft.Network/networkInterfaces",
             "name": "[parameters('networkInterfaces_nic_name')]",
             "apiVersion": "2016-03-30",
-            "location": "westeurope",
+            "location": "[parameters('resourcesLocation')]",
             "properties": {
                 "ipConfigurations": [
                     {
                         "name": "default-ip-config",
                         "properties": {
-                            "privateIPAddress": "192.168.1.101",
+                            "privateIPAddress": "[parameters('vmPrivateIPAddress')]",
                             "privateIPAllocationMethod": "Static",
                             "publicIPAddress": {
                                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_ip_name'))]"
@@ -129,12 +170,12 @@
             "type": "Microsoft.Network/publicIPAddresses",
             "name": "[parameters('publicIPAddresses_ip_name')]",
             "apiVersion": "2016-03-30",
-            "location": "westeurope",
+            "location": "[parameters('resourcesLocation')]",
             "properties": {
                 "publicIPAllocationMethod": "Static",
                 "idleTimeoutInMinutes": 4,
                 "dnsSettings": {
-                    "domainNameLabel": "bfadserver"
+                    "domainNameLabel": "[parameters('vmDomainNameLabel')]"
                 }
             },
             "resources": [],
@@ -145,7 +186,7 @@
             "type": "Microsoft.Network/virtualNetworks",
             "name": "[parameters('virtualNetworks_vnet_name')]",
             "apiVersion": "2016-03-30",
-            "location": "westeurope",
+            "location": "[parameters('resourcesLocation')]",
             "properties": {
                 "addressSpace": {
                     "addressPrefixes": [
@@ -177,7 +218,7 @@
             "kind": "Storage",
             "name": "[parameters('storageAccounts_sa_name')]",
             "apiVersion": "2016-01-01",
-            "location": "westeurope",
+            "location": "[parameters('resourcesLocation')]",
             "tags": {},
             "properties": {},
             "resources": [],
