@@ -7,23 +7,23 @@
             "type": "SecureString"
         },
         "virtualMachines_vm_name": {
-            "defaultValue": "tstavm",
+            "defaultValue": "bfatstavm",
             "type": "String"
         },
         "networkInterfaces_nic_name": {
-            "defaultValue": "tstanic",
+            "defaultValue": "bfatstanic",
             "type": "String"
         },
         "publicIPAddresses_ip_name": {
-            "defaultValue": "tstaip",
+            "defaultValue": "bfatstaip",
             "type": "String"
         },
         "virtualNetworks_vnet_name": {
-            "defaultValue": "tstavnet",
+            "defaultValue": "bfatstavnet",
             "type": "String"
         },
         "storageAccounts_sa_name": {
-            "defaultValue": "tstasa",
+            "defaultValue": "bfatstasa",
             "type": "String"
         }
     },
@@ -122,7 +122,7 @@
                 "publicIPAllocationMethod": "Static",
                 "idleTimeoutInMinutes": 4,
                 "dnsSettings": {
-                    "domainNameLabel": "tsta"
+                    "domainNameLabel": "bfatsta"
                 }
             },
             "resources": [],
