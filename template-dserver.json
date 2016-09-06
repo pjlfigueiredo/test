@@ -7,23 +7,23 @@
             "type": "SecureString"
         },
         "virtualMachines_vm_name": {
-            "defaultValue": "dservervm",
+            "defaultValue": "bfadservervm",
             "type": "String"
         },
         "networkInterfaces_nic_name": {
-            "defaultValue": "dservernic",
+            "defaultValue": "bfadservernic",
             "type": "String"
         },
         "publicIPAddresses_ip_name": {
-            "defaultValue": "dserverip",
+            "defaultValue": "bfadserverip",
             "type": "String"
         },
         "virtualNetworks_vnet_name": {
-            "defaultValue": "dservervnet",
+            "defaultValue": "bfadservervnet",
             "type": "String"
         },
         "storageAccounts_sa_name": {
-            "defaultValue": "dserversa",
+            "defaultValue": "bfadserversa",
             "type": "String"
         }
     },
@@ -134,7 +134,7 @@
                 "publicIPAllocationMethod": "Static",
                 "idleTimeoutInMinutes": 4,
                 "dnsSettings": {
-                    "domainNameLabel": "dserver"
+                    "domainNameLabel": "bfadserver"
                 }
             },
             "resources": [],
