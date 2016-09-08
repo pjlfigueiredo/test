@@ -29,7 +29,7 @@
     "vmHardwareProfile": {
       "value": "Standard_DS1"
     },
-	"vmDomainNameLabel": {
+    "vmDomainNameLabel": {
       "value": "dserverbfa"
     },
     "imageReferencePublisher": {
