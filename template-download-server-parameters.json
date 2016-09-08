@@ -45,10 +45,10 @@
       "value": "192.168.1.101"
     },
     "vmExternalPremiumStorageName": {
-      "value": "docker-registry-20160908-095716"
+      "value": "docker-registry-20160908-101957"
     },
 	"vmExternalPremiumStorageURI": {
-      "value": "https://bfastorageaccount.blob.core.windows.net/docker-registry/docker-registry-20160908-095716.vhd"
+      "value": "https://bfasapremium.blob.core.windows.net/docker-registry/docker-registry-20160908-101957.vhd"
     },
 	"vmExternalPremiumStorageDiskSize_gb": {
       "value": "100"
