@@ -11,23 +11,23 @@
       "type": "SecureString"
     },
     "virtualMachines_vm_name": {
-      "defaultValue": "downloadservervm",
+      "defaultValue": "bfadsvm",
       "type": "String"
     },
     "networkInterfaces_nic_name": {
-      "defaultValue": "downloadservernic",
+      "defaultValue": "bfadsnic",
       "type": "String"
     },
     "publicIPAddresses_ip_name": {
-      "defaultValue": "downloadserverip",
+      "defaultValue": "bfadsip",
       "type": "String"
     },
     "virtualNetworks_vnet_name": {
-      "defaultValue": "downloadservervnet",
+      "defaultValue": "bfadsvnet",
       "type": "String"
     },
     "storageAccounts_sa_name": {
-      "defaultValue": "downloadserversa",
+      "defaultValue": "bfadssa",
       "type": "String"
     },
     "resourcesLocation": {
@@ -59,7 +59,7 @@
       "type": "String"
     },
     "vmDomainNameLabel": {
-      "defaultValue": "downloadserver",
+      "defaultValue": "bfads",
       "type": "String"
     },
 	"vmExternalPremiumStorageName": {
