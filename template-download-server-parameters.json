@@ -30,8 +30,7 @@
       "value": "Standard_DS1"
     },
 	"vmDomainNameLabel": {
-      "defaultValue": "dserverbfa",
-      "type": "String"
+      "defaultValue": "dserverbfa"
     },
     "imageReferencePublisher": {
       "value": "canonical"
