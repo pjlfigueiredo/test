@@ -9,19 +9,19 @@
       "value": "Critical1!"
     },
     "virtualMachines_vm_name": {
-      "value": "bfadservervm"
+      "value": "dserverbfavm"
     },
     "networkInterfaces_nic_name": {
-      "value": "bfadservernic"
+      "value": "dserverbfanic"
     },
     "publicIPAddresses_ip_name": {
-      "value": "bfadserverip"
+      "value": "dserverbfaip"
     },
     "virtualNetworks_vnet_name": {
-      "value": "bfadservervnet"
+      "value": "dserverbfavnet"
     },
     "storageAccounts_sa_name": {
-      "value": "bfadserversa"
+      "value": "dserverbfasa"
     },
     "resourcesLocation": {
       "value": "westeurope"
