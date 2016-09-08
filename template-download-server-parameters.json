@@ -51,7 +51,7 @@
       "value": "https://bfasapremium.blob.core.windows.net/docker-registry/docker-registry-20160908-101957.vhd"
     },
 	"vmExternalPremiumStorageDiskSize_gb": {
-      "value": "100"
+      "value": "128"
     },
 	 "vmExternalStandardStorageName": {
       "value": "web-server-20160908-102258"
