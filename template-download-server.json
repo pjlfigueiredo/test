@@ -1,0 +1,287 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "virtualMachines_vm_adminUser": {
+      "defaultValue": "ops",
+      "type": "String"
+    },
+    "virtualMachines_vm_adminPassword": {
+      "defaultValue": "Critical1!",
+      "type": "SecureString"
+    },
+    "virtualMachines_vm_name": {
+      "defaultValue": "downloadservervm",
+      "type": "String"
+    },
+    "networkInterfaces_nic_name": {
+      "defaultValue": "downloadservernic",
+      "type": "String"
+    },
+    "publicIPAddresses_ip_name": {
+      "defaultValue": "downloadserverip",
+      "type": "String"
+    },
+    "virtualNetworks_vnet_name": {
+      "defaultValue": "downloadservervnet",
+      "type": "String"
+    },
+    "storageAccounts_sa_name": {
+      "defaultValue": "downloadserversa",
+      "type": "String"
+    },
+    "resourcesLocation": {
+      "defaultValue": "westeurope",
+      "type": "String"
+    },
+    "vmHardwareProfile": {
+      "defaultValue": "Standard_DS1",
+      "type": "String"
+    },
+    "imageReferencePublisher": {
+      "defaultValue": "canonical",
+      "type": "String"
+    },
+    "imageReferenceOffer": {
+      "defaultValue": "ubuntuserver",
+      "type": "String"
+    },
+    "imageReferenceSku": {
+      "defaultValue": "16.04.0-LTS",
+      "type": "String"
+    },
+    "imageReferenceVersion": {
+      "defaultValue": "16.04.201604203",
+      "type": "String"
+    },
+    "vmPrivateIPAddress": {
+      "defaultValue": "192.168.1.101",
+      "type": "String"
+    },
+    "vmDomainNameLabel": {
+      "defaultValue": "downloadserver",
+      "type": "String"
+    },
+	"vmExternalPremiumStorageName": {
+      "defaultValue": "docker-registry-20160908-095716",
+	  "type": "String"
+    },
+	"vmExternalPremiumStorageURI": {
+      "defaultValue": "https://bfastorageaccount.blob.core.windows.net/docker-registry/docker-registry-20160908-095716.vhd",
+	  "type": "String"
+    },
+	"vmExternalPremiumStorageDiskSize_gb": {
+      "defaultValue": "100",
+      "type": "String"
+    },
+	"vmExternalStandardStorageName": {
+      "defaultValue": "web-server-20160908-102258",
+	  "type": "String"
+    },
+	"vmExternalStandardStorageURI": {
+      "defaultValue": "https://bfasastandard.blob.core.windows.net/web-server/web-server-20160908-102258.vhd",
+	  "type": "String"
+    },
+	"vmExternalStandardStorageDiskSize_gb": {
+      "defaultValue": "50",
+      "type": "String"
+    }
+  },
+  "variables": {
+    
+  },
+  "resources": [
+    {
+      "comments": "VM Resource",
+      "type": "Microsoft.Compute/virtualMachines",
+      "name": "[parameters('virtualMachines_vm_name')]",
+      "apiVersion": "2015-06-15",
+      "location": "[parameters('resourcesLocation')]",
+      "tags": {
+        
+      },
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[parameters('vmHardwareProfile')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[parameters('imageReferencePublisher')]",
+            "offer": "[parameters('imageReferenceOffer')]",
+            "sku": "[parameters('imageReferenceSku')]",
+            "version": "[parameters('imageReferenceVersion')]"
+          },
+          "osDisk": {
+            "name": "cli0df3d1bbbbb28c09-os-1472477484912",
+            "createOption": "FromImage",
+            "vhd": {
+              "uri": "[concat('https', '://', parameters('storageAccounts_sa_name'), '.blob.core.windows.net', '/vhds/cli0df3d1bbbbb28c09-os-1472477484912.vhd')]"
+            },
+            "caching": "ReadWrite"
+          },
+          "dataDisks": [
+            {
+              "lun": 0,
+              "name": "[parameters('vmExternalPremiumStorageName')]",
+              "createOption": "Empty",
+              "vhd": {
+                "uri": "[parameters('vmExternalPremiumStorageURI')]"
+              },
+              "caching": "ReadWrite",
+              "diskSizeGB": "[parameters('vmExternalPremiumStorageDiskSize_gb')]"
+            },
+			{
+              "lun": 1,
+              "name": "[parameters('vmExternalStandardStorageName')]",
+              "createOption": "Empty",
+              "vhd": {
+                "uri": "[parameters('vmExternalStandardStorageURI')]"
+              },
+              "caching": "ReadWrite",
+              "diskSizeGB": "[parameters('vmExternalStandardStorageDiskSize_gb')]"
+            }
+          ]
+        },
+        "osProfile": {
+          "computerName": "[parameters('virtualMachines_vm_name')]",
+          "adminUsername": "[parameters('virtualMachines_vm_adminUser')]",
+          "linuxConfiguration": {
+            "disablePasswordAuthentication": false
+          },
+          "secrets": [
+            
+          ],
+          "adminPassword": "[parameters('virtualMachines_vm_adminPassword')]"
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_nic_name'))]"
+            }
+          ]
+        }
+      },
+      "resources": [
+        
+      ],
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_sa_name'))]",
+        "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_nic_name'))]"
+      ]
+    },
+    {
+      "comments": "Network Interface Resource",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[parameters('networkInterfaces_nic_name')]",
+      "apiVersion": "2016-03-30",
+      "location": "[parameters('resourcesLocation')]",
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "default-ip-config",
+            "properties": {
+              "privateIPAddress": "[parameters('vmPrivateIPAddress')]",
+              "privateIPAllocationMethod": "Static",
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_ip_name'))]"
+              },
+              "subnet": {
+                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_vnet_name')), '/subnets/snet')]"
+              }
+            }
+          }
+        ],
+        "dnsSettings": {
+          "dnsServers": [
+            
+          ]
+        },
+        "enableIPForwarding": false
+      },
+      "resources": [
+        
+      ],
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_ip_name'))]",
+        "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_vnet_name'))]"
+      ]
+    },
+    {
+      "comments": "IP Address Resource",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[parameters('publicIPAddresses_ip_name')]",
+      "apiVersion": "2016-03-30",
+      "location": "[parameters('resourcesLocation')]",
+      "properties": {
+        "publicIPAllocationMethod": "Static",
+        "idleTimeoutInMinutes": 4,
+        "dnsSettings": {
+          "domainNameLabel": "[parameters('vmDomainNameLabel')]"
+        }
+      },
+      "resources": [
+        
+      ],
+      "dependsOn": [
+        
+      ]
+    },
+    {
+      "comments": "Virtual Network Resource",
+      "type": "Microsoft.Network/virtualNetworks",
+      "name": "[parameters('virtualNetworks_vnet_name')]",
+      "apiVersion": "2016-03-30",
+      "location": "[parameters('resourcesLocation')]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "192.168.0.0/16"
+          ]
+        },
+        "dhcpOptions": {
+          "dnsServers": [
+            
+          ]
+        },
+        "subnets": [
+          {
+            "name": "snet",
+            "properties": {
+              "addressPrefix": "192.168.1.0/24"
+            }
+          }
+        ]
+      },
+      "resources": [
+        
+      ],
+      "dependsOn": [
+        
+      ]
+    },
+    {
+      "comments": "Storage Account Resource",
+      "type": "Microsoft.Storage/storageAccounts",
+      "sku": {
+        "name": "Standard_LRS",
+        "tier": "Standard"
+      },
+      "kind": "Storage",
+      "name": "[parameters('storageAccounts_sa_name')]",
+      "apiVersion": "2016-01-01",
+      "location": "[parameters('resourcesLocation')]",
+      "tags": {
+        
+      },
+      "properties": {
+        
+      },
+      "resources": [
+        
+      ],
+      "dependsOn": [
+        
+      ]
+    }
+  ]
+}

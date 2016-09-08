@@ -1,0 +1,66 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "virtualMachines_vm_adminUser": {
+      "value": "ops"
+    },
+    "virtualMachines_vm_adminPassword": {
+      "value": "Critical1!"
+    },
+    "virtualMachines_vm_name": {
+      "value": "bfadsvm"
+    },
+    "networkInterfaces_nic_name": {
+      "value": "bfadsnic"
+    },
+    "publicIPAddresses_ip_name": {
+      "value": "bfadsip"
+    },
+    "virtualNetworks_vnet_name": {
+      "value": "bfadsvnet"
+    },
+    "storageAccounts_sa_name": {
+      "value": "bfadssa"
+    },
+    "resourcesLocation": {
+      "value": "westeurope"
+    },
+    "vmHardwareProfile": {
+      "value": "Standard_DS1"
+    },
+    "imageReferencePublisher": {
+      "value": "canonical"
+    },
+    "imageReferenceOffer": {
+      "value": "ubuntuserver"
+    },
+    "imageReferenceSku": {
+      "value": "16.04.0-LTS"
+    },
+    "imageReferenceVersion": {
+      "value": "16.04.201604203"
+    },
+    "vmPrivateIPAddress": {
+      "value": "192.168.1.101"
+    },
+    "vmExternalPremiumStorageName": {
+      "value": "docker-registry-20160908-095716"
+    },
+	"vmExternalPremiumStorageURI": {
+      "value": "https://bfastorageaccount.blob.core.windows.net/docker-registry/docker-registry-20160908-095716.vhd"
+    },
+	"vmExternalPremiumStorageDiskSize_gb": {
+      "value": "100"
+    },
+	 "vmExternalStandardStorageName": {
+      "value": "web-server-20160908-102258"
+    },
+	"vmExternalStandardStorageURI": {
+      "value": "https://bfasastandard.blob.core.windows.net/web-server/web-server-20160908-102258.vhd"
+    },
+	"vmExternalStandardStorageDiskSize_gb": {
+      "value": "50"
+    }
+  }
+}
