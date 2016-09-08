@@ -29,6 +29,10 @@
     "vmHardwareProfile": {
       "value": "Standard_DS1"
     },
+	"vmDomainNameLabel": {
+      "defaultValue": "dserverbfa",
+      "type": "String"
+    },
     "imageReferencePublisher": {
       "value": "canonical"
     },
