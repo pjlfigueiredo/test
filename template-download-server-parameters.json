@@ -9,19 +9,19 @@
       "value": "Critical1!"
     },
     "virtualMachines_vm_name": {
-      "value": "downloadservervm"
+      "value": "dserverbfavm"
     },
     "networkInterfaces_nic_name": {
-      "value": "downloadservernic"
+      "value": "dserverbfanic"
     },
     "publicIPAddresses_ip_name": {
-      "value": "downloadserverip"
+      "value": "dserverbfaip"
     },
     "virtualNetworks_vnet_name": {
-      "value": "downloadservervnet"
+      "value": "dserverbfavnet"
     },
     "storageAccounts_sa_name": {
-      "value": "downloadserversa"
+      "value": "dserverbfasa"
     },
     "resourcesLocation": {
       "value": "westeurope"
@@ -30,7 +30,7 @@
       "value": "Standard_DS1"
     },
     "vmDomainNameLabel": {
-      "value": "downloadserver"
+      "value": "dserverbfa"
     },
     "imageReferencePublisher": {
       "value": "canonical"
