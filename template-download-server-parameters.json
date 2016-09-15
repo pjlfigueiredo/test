@@ -9,19 +9,19 @@
       "value": "Critical1!"
     },
     "virtualMachines_vm_name": {
-      "value": "dserverbfavm"
+      "value": "dservervm"
     },
     "networkInterfaces_nic_name": {
-      "value": "dserverbfanic"
+      "value": "dservernic"
     },
     "publicIPAddresses_ip_name": {
-      "value": "dserverbfaip"
+      "value": "dserverip"
     },
     "virtualNetworks_vnet_name": {
-      "value": "dserverbfavnet"
+      "value": "dservervnet"
     },
     "storageAccounts_sa_name": {
-      "value": "dserverbfasa"
+      "value": "dserversa"
     },
     "resourcesLocation": {
       "value": "westeurope"
@@ -30,7 +30,7 @@
       "value": "Standard_DS1"
     },
     "vmDomainNameLabel": {
-      "value": "dserverbfa"
+      "value": "dserver"
     },
     "imageReferencePublisher": {
       "value": "canonical"
