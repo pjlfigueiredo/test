@@ -22,10 +22,6 @@
       "defaultValue": "bfadsip",
       "type": "String"
     },
-    "virtualNetworks_vnet_name": {
-      "defaultValue": "bfadsvnet",
-      "type": "String"
-    },
     "storageAccounts_sa_name": {
       "defaultValue": "bfadssa",
       "type": "String"
@@ -85,7 +81,15 @@
 	"vmExternalStandardStorageDiskSize_gb": {
       "defaultValue": "50",
       "type": "String"
-    }
+    },
+	 "virtualNetworks_vnet_name": {
+      "defaultValue": "bfadsvnet",
+      "type": "String"
+    },
+	"virtualNetworks_vnet_resourcegroup_name": {
+	   "defaultValue": "",
+       "type": "String"
+	}
   },
   "variables": {
     
@@ -170,43 +174,38 @@
       ]
     },
     {
-      "comments": "Network Interface Resource",
-      "type": "Microsoft.Network/networkInterfaces",
-      "name": "[parameters('networkInterfaces_nic_name')]",
-      "apiVersion": "2016-03-30",
-      "location": "[parameters('resourcesLocation')]",
-      "properties": {
-        "ipConfigurations": [
-          {
-            "name": "default-ip-config",
+            "comments": "Network Interface Resource",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[parameters('networkInterfaces_nic_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "[parameters('resourcesLocation')]",
             "properties": {
-              "privateIPAddress": "[parameters('vmPrivateIPAddress')]",
-              "privateIPAllocationMethod": "Static",
-              "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_ip_name'))]"
-              },
-              "subnet": {
-                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_vnet_name')), '/subnets/snet')]"
-              }
-            }
-          }
-        ],
-        "dnsSettings": {
-          "dnsServers": [
-            
-          ]
+                "ipConfigurations": [
+                    {
+                        "name": "default-ip-config",
+                        "properties": {
+                            "privateIPAddress": "[parameters('vmPrivateIPAddress')]",
+                            "privateIPAllocationMethod": "Static",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_ip_name'))]"
+                            },
+                            "subnet": {
+                                "id": "[concat(resourceId(parameters('virtualNetworks_vnet_resourcegroup_name'),'Microsoft.Network/virtualNetworks', parameters('virtualNetworks_vnet_name')), '/subnets/bfa')]"
+                            }
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": []
+                },
+                "enableIPForwarding": false
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_ip_name'))]"
+            ]
         },
-        "enableIPForwarding": false
-      },
-      "resources": [
-        
-      ],
-      "dependsOn": [
-        "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_ip_name'))]",
-        "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_vnet_name'))]"
-      ]
-    },
-    {
+	{
       "comments": "IP Address Resource",
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[parameters('publicIPAddresses_ip_name')]",
@@ -218,39 +217,6 @@
         "dnsSettings": {
           "domainNameLabel": "[parameters('vmDomainNameLabel')]"
         }
-      },
-      "resources": [
-        
-      ],
-      "dependsOn": [
-        
-      ]
-    },
-    {
-      "comments": "Virtual Network Resource",
-      "type": "Microsoft.Network/virtualNetworks",
-      "name": "[parameters('virtualNetworks_vnet_name')]",
-      "apiVersion": "2016-03-30",
-      "location": "[parameters('resourcesLocation')]",
-      "properties": {
-        "addressSpace": {
-          "addressPrefixes": [
-            "192.168.0.0/16"
-          ]
-        },
-        "dhcpOptions": {
-          "dnsServers": [
-            
-          ]
-        },
-        "subnets": [
-          {
-            "name": "snet",
-            "properties": {
-              "addressPrefix": "192.168.1.0/24"
-            }
-          }
-        ]
       },
       "resources": [
         
