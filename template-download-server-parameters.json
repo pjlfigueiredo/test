@@ -17,9 +17,6 @@
     "publicIPAddresses_ip_name": {
       "value": "dserverbfaip"
     },
-    "virtualNetworks_vnet_name": {
-      "value": "dserverbfavnet"
-    },
     "storageAccounts_sa_name": {
       "value": "dserverbfasa"
     },
@@ -29,7 +26,7 @@
     "vmHardwareProfile": {
       "value": "Standard_DS1"
     },
-    "vmDomainNameLabel": {
+	"vmDomainNameLabel": {
       "value": "dserverbfa"
     },
     "imageReferencePublisher": {
@@ -45,7 +42,7 @@
       "value": "16.04.201604203"
     },
     "vmPrivateIPAddress": {
-      "value": "192.168.1.101"
+      "value": "{{ vm_private_ip }}"
     },
     "vmExternalPremiumStorageName": {
       "value": "docker-registry-20160908-101957"
@@ -64,6 +61,12 @@
     },
 	"vmExternalStandardStorageDiskSize_gb": {
       "value": "50"
-    }
+    },
+    "virtualNetworks_vnet_name": {
+	  "value": "CswNetwork"
+	},
+	"virtualNetworks_vnet_resourcegroup_name": {
+	 "value": "Infrastructure"
+	}
   }
 }
